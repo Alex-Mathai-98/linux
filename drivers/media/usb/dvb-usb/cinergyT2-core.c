@@ -74,6 +74,7 @@ static int cinergyt2_frontend_attach(struct dvb_usb_adapter *adap)
 	adap->fe_adap[0].fe = cinergyt2_fe_attach(adap->dev);
 
 	mutex_lock(&d->data_mutex);
+	kfree(adap->fe_adap[0].fe); // Free the frontend structure to prevent memory leak
 	st->data[0] = CINERGYT2_EP1_GET_FIRMWARE_VERSION;
 
 	ret = dvb_usb_generic_rw(d, st->data, 1, st->data, 3, 0);
